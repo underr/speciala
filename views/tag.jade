@@ -1,0 +1,20 @@
+include header
+
+body
+  .container
+    h1 speciala - #{tag}
+    
+    each link in links
+      div(id='link')
+          a(href= link.link) <b>#{link.title}</b> 
+          span <b>//</b> 
+          each tag in link.tags
+           if tag == link.tags[link.tags.length-1]
+            a(href='/tag/' + tag, id='taglink')
+             span(id='tag') #{tag}
+           else
+            a(href='/tag/' + tag, id='taglink')
+             span(id='tag') #{tag},
+    
+    br
+    a(href='/', id='taglink') Voltar

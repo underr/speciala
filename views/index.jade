@@ -1,0 +1,30 @@
+include header
+
+body
+  .container
+    h1 speciala (<b>#{count}</b>)
+    
+    h4 Últimos links
+    each link in links
+      div(id='link')
+        a(href= link.link) <b>#{link.title}</b> 
+        span <b>//</b> 
+        each tag in link.tags
+         if tag == link.tags[link.tags.length-1]
+          a(href='/tag/' + tag, id='taglink')
+           span(id='tag') #{tag}
+         else
+          a(href='/tag/' + tag, id='taglink')
+           span(id='tag') #{tag},
+    hr
+    h4 Adicionar link    
+    form(action="/", method="post")
+         label Nome
+         input(type="text", name="title", autofocus='autofocus', placeholder='Nome')
+         label Link
+         input(type="text", name="link",  placeholder='Link')
+         br
+         label tags
+         textarea(type="text", name="tags",  placeholder='Tags', rows="1", cols="51")
+         br
+         input(type="submit", value=send)

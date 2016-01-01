@@ -1,0 +1,17 @@
+{
+  "name": "speciala",
+  "version": "1.0.0",
+  "description": "link manager",
+  "main": "index.js",
+  "author": "underr",
+  "license": "GPL2",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
+    "lowdb": "^0.11.2",
+    "serve-favicon": "^2.3.0",
+    "sqlite3": "^3.1.1",
+    "uuid": "^2.0.1"
+  }
+}
