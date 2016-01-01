@@ -32,9 +32,8 @@ app.get('/tag/:tag', function(req, res) {
   vtags = [];
   links.forEach(function(link) {
     var t = link.tags;
-    if (t.contains(tag)) {
+    if (t.contains(tag))
       vtags.push(link);
-    }
   });
   res.render('tag', {
     tag: tag,
