@@ -1,19 +1,21 @@
-var express = require('express');
-var app = express();
-var low = require('lowdb');
-var storage = require('lowdb/file-sync');
-var db = low('db.json', {storage});
-var bodyParser = require('body-parser');
-var favicon = require('serve-favicon');
-var uuid = require('uuid');
+const express = require('express');
+const app = express();
+const low = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync');
+const bodyParser = require('body-parser');
+const favicon = require('serve-favicon');
+const uuidv1 = require('uuid/v1');
+const moment = require('moment');
 
 Array.prototype.contains = function(element){
     return this.indexOf(element) > -1;
 };
 
+const adapter = new FileSync('db.json')
+const db = low(adapter)
 app.enable('trust proxy');
 app.locals.pretty = true;
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', express.static(__dirname + '/public'));
@@ -21,14 +23,14 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 
 app.get('/', function(req, res) {
   res.render('index', {
-    links: db('links').value(),
-    count: db('links').size()
+    links: db.get('links').value(),
+    count: db.get('links').size()
   });
 });
 
 app.get('/tag/:tag', function(req, res) {
   tag = req.params.tag;
-  links = db('links').value();
+  links = db.get('links').value();
   vtags = [];
   links.forEach(function(link) {
     var t = link.tags;
@@ -42,14 +44,14 @@ app.get('/tag/:tag', function(req, res) {
 });
 
 app.post('/', function(req, res) {
-  var title = req.body.title;
-  var link = req.body.link;
-  var tags = req.body.tags;
-  db('links').push(
-    { title: title,
-      link: link,
-      tags: tags.replace(/ /g,'').split(",")
-    });
+  db.get('links').push(
+    { title: req.body.title,
+      link: req.body.link,
+      tags: req.body.tags.replace(/ /g,'').split(","),
+      date: moment(),
+      id: uuidv1(),
+
+    }).write();
   res.redirect('/');
 });
 
