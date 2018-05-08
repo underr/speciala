@@ -7,8 +7,9 @@ body
     h4 Últimos links
     each link in links
       div(id='link')
+        img(src='favicons/1.ico') 
+        b 
         a(href= link.link) <b>#{link.title}</b> 
-        span <b>//</b> 
         each tag in link.tags
          if tag == link.tags[link.tags.length-1]
           a(href='/tag/' + tag, id='taglink')
