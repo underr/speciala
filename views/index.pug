@@ -4,7 +4,7 @@ body
   .container
     h1 speciala (<b>#{count}</b>)
     
-    h4 Adicionar link    
+    h4 Add link  
     form(action="/", method="post")
          label Nome
          input(type="text", name="title", autofocus='autofocus', placeholder='Nome')
@@ -18,7 +18,7 @@ body
 
     if count != 0
       hr
-      h4 Últimos links
+      h4 Last links
       each link in links
         div(id='link')
           img(src='favicons/1.ico') 
