@@ -4,20 +4,6 @@ body
   .container
     h1 speciala (<b>#{count}</b>)
     
-    h4 Últimos links
-    each link in links
-      div(id='link')
-        img(src='favicons/1.ico') 
-        b 
-        a(href= link.link) <b>#{link.title}</b> 
-        each tag in link.tags
-         if tag == link.tags[link.tags.length-1]
-          a(href='/tag/' + tag, id='taglink')
-           span(id='tag') #{tag}
-         else
-          a(href='/tag/' + tag, id='taglink')
-           span(id='tag') #{tag},
-    hr
     h4 Adicionar link    
     form(action="/", method="post")
          label Nome
@@ -29,3 +15,31 @@ body
          textarea(type="text", name="tags",  placeholder='Tags', rows="1", cols="51")
          br
          input(type="submit", value=send)
+
+    if count != 0
+      hr
+      h4 Últimos links
+      each link in links
+        div(id='link')
+          img(src='favicons/1.ico') 
+          b 
+          a(href= link.link) #{link.title} 
+          each tag in link.tags
+           if tag == link.tags[link.tags.length-1]
+            a(href='/tag/' + tag, id='taglink')
+             span(id='tag') #{tag}
+           else
+            a(href='/tag/' + tag, id='taglink')
+             span(id='tag') #{tag},
+          br
+          a(id='less' href= link.link) #{link.domain} 
+          span | 
+          span(id='less2') #{link.time} 
+          span | 
+          a(id='less' href='') edit 
+          span | 
+          a(id='less' href='') delete
+
+          
+
+

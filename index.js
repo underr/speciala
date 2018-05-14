@@ -6,13 +6,17 @@ const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');
 const uuidv1 = require('uuid/v1');
 const moment = require('moment');
+const url = require('url');
 
 Array.prototype.contains = function(element){
     return this.indexOf(element) > -1;
 };
 
-const adapter = new FileSync('db.json')
-const db = low(adapter)
+// DB
+const adapter = new FileSync('db.json');
+const db = low(adapter);
+db.defaults({ links: []}).write()
+// express settings
 app.enable('trust proxy');
 app.locals.pretty = true;
 app.set('view engine', 'pug');
@@ -44,13 +48,14 @@ app.get('/tag/:tag', function(req, res) {
 });
 
 app.post('/', function(req, res) {
+  var link = req.body.link;
   db.get('links').push(
     { title: req.body.title,
-      link: req.body.link,
+      link: link,
       tags: req.body.tags.replace(/ /g,'').split(","),
-      date: moment(),
+      domain: new url.URL(link).hostname,
       id: uuidv1(),
-
+      time: moment().format("YYYY-MM-DD HH:MM:SS")
     }).write();
   res.redirect('/');
 });
